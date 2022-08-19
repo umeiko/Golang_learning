@@ -1,23 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"inorderTraversal/tree_node"
+)
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
+// type TreeNode struct {
+// 	Val   int
+// 	Left  *TreeNode
+// 	Right *TreeNode
+// }
 
 var null int = -1
 
-func creat_and_link_node(root *TreeNode, val, L_or_R int) *TreeNode {
+func creat_and_link_node(root *tree_node.TreeNode, val, L_or_R int) *tree_node.TreeNode {
 	if root != nil {
 		fmt.Printf("	root:%d, %d-Node:%d\n", root.Val, L_or_R, val)
 	} else {
 		fmt.Printf("	root:nil, %d-Node:%d\n", L_or_R, val)
 	}
 	if root != nil && val != null {
-		new_node := &TreeNode{Val: val}
+		new_node := &tree_node.TreeNode{Val: val}
 		if L_or_R == 0 {
 			root.Left = new_node
 		} else if L_or_R == 1 {
@@ -29,16 +32,16 @@ func creat_and_link_node(root *TreeNode, val, L_or_R int) *TreeNode {
 	}
 }
 
-func genTest(val_list []int) *TreeNode {
+func genTest(val_list []int) *tree_node.TreeNode {
 	num_rest_node := len(val_list) - 1
-	root := &TreeNode{}
+	root := &tree_node.TreeNode{}
 	if len(val_list) > 0 {
 		if val_list[0] != null {
 			root.Val = val_list[0]
 		}
 
 	}
-	last_level_Nodes := []*TreeNode{root}
+	last_level_Nodes := []*tree_node.TreeNode{root}
 	for i := 1; ; i++ {
 		if num_rest_node <= 0 {
 			break
@@ -49,7 +52,7 @@ func genTest(val_list []int) *TreeNode {
 			val_list = append(val_list, null)
 			num_rest_node += 1
 		}
-		this_level_Nodes := []*TreeNode{}
+		this_level_Nodes := []*tree_node.TreeNode{}
 		for j := 0; j < num_node_in_cur_level; j++ {
 			new_node := creat_and_link_node(last_level_Nodes[j/2], val_list[len(val_list)-num_rest_node], j%2)
 			if new_node != nil {
@@ -62,7 +65,7 @@ func genTest(val_list []int) *TreeNode {
 	return root
 }
 
-func get_all_next_node(nodes []*TreeNode) (out []*TreeNode) {
+func get_all_next_node(nodes []*tree_node.TreeNode) (out []*tree_node.TreeNode) {
 	for i := range nodes {
 		if nodes[i] != nil {
 			if nodes[i].Left != nil {
@@ -76,8 +79,8 @@ func get_all_next_node(nodes []*TreeNode) (out []*TreeNode) {
 	return out
 }
 
-func deepestLeavesSum(root *TreeNode) (out int) {
-	b := []*TreeNode{root}
+func deepestLeavesSum(root *tree_node.TreeNode) (out int) {
+	b := []*tree_node.TreeNode{root}
 	temp := b
 	for {
 		temp = get_all_next_node(b)
@@ -94,7 +97,7 @@ func deepestLeavesSum(root *TreeNode) (out int) {
 }
 
 func main() {
-	a := []int{1, 2, 3, 4, 5}
+	a := []int{1, 2, 3, 4, 5, 6, 7}
 	root := genTest(a)
 	result := deepestLeavesSum(root)
 	fmt.Print(result)
