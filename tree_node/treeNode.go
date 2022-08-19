@@ -1,6 +1,9 @@
 package tree_node
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 type TreeNode struct {
 	Val   int
@@ -11,11 +14,25 @@ type TreeNode struct {
 const Null int = -1
 
 func creat_and_link_node(root *TreeNode, val, L_or_R int) *TreeNode {
+	s_root := ""
+	s_val := ""
+	s_LR := ""
 	if root != nil {
-		fmt.Printf("	root:%d, %d-Node:%d\n", root.Val, L_or_R, val)
+		s_root = strconv.Itoa(root.Val)
 	} else {
-		fmt.Printf("	root:nil, %d-Node:%d\n", L_or_R, val)
+		s_root = "nil"
 	}
+	if val != Null {
+		s_val = strconv.Itoa(val)
+	} else {
+		s_val = "nil"
+	}
+	if L_or_R == 0 {
+		s_LR = "Left "
+	} else {
+		s_LR = "Right"
+	}
+	fmt.Printf("	root:%s\t%s-Node: %s\n", s_root, s_LR, s_val)
 	if root != nil && val != Null {
 		new_node := &TreeNode{Val: val}
 		if L_or_R == 0 {
@@ -33,8 +50,10 @@ func GenTest(val_list []int) *TreeNode {
 	num_rest_node := len(val_list) - 1
 	root := &TreeNode{}
 	if len(val_list) > 0 {
+		fmt.Printf("level %d:\n", 0)
 		if val_list[0] != Null {
 			root.Val = val_list[0]
+			fmt.Printf("	Node %d\n", root.Val)
 		}
 
 	}

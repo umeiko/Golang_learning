@@ -33,7 +33,6 @@ func max(x, y int) (r int) {
 
 func main() {
 	var nums = []int{2, 7, 9, 3, 1}
-
 	fmt.Println(rob(nums))
 
 }
