@@ -46,6 +46,17 @@ func creat_and_link_node(root *TreeNode, val, L_or_R int) *TreeNode {
 	}
 }
 
+func get_node(root *TreeNode, L_or_R int) (out *TreeNode) {
+	if L_or_R == 0 {
+		out = root.Left
+	}
+	if L_or_R == 1 {
+		out = root.Right
+	}
+	return
+}
+
+// 输入数组，自动生成测试数列
 func GenTest(val_list []int) *TreeNode {
 	num_rest_node := len(val_list) - 1
 	root := &TreeNode{}
@@ -55,7 +66,6 @@ func GenTest(val_list []int) *TreeNode {
 			root.Val = val_list[0]
 			fmt.Printf("	Node %d\n", root.Val)
 		}
-
 	}
 	last_level_Nodes := []*TreeNode{root}
 	for i := 1; ; i++ {
@@ -79,4 +89,71 @@ func GenTest(val_list []int) *TreeNode {
 		last_level_Nodes = this_level_Nodes
 	}
 	return root
+}
+
+// 中序遍历
+func InorderTraversal(root *TreeNode) (out []int) {
+	if root == nil {
+		return
+	}
+	if (root.Left == nil) && (root.Right == nil) {
+		out = append(out, root.Val)
+		return
+	}
+	for {
+		pre_node := root
+		for {
+			if pre_node.Left != nil {
+				now_node := pre_node.Left
+				if now_node.Left != nil {
+					pre_node = now_node
+				} else {
+					out = append(out, now_node.Val)
+					pre_node.Left = now_node.Right
+					if root.Val != Null && (root.Left == nil) && (root.Right == nil) {
+						out = append(out, root.Val)
+						return
+					}
+					break
+				}
+			} else {
+				out = append(out, pre_node.Val)
+				pre_node.Val = Null
+				pre_node.Left = pre_node.Right
+				pre_node.Right = nil
+			}
+		}
+
+		if (root.Left == nil) && (root.Right == nil) {
+			return
+		}
+	}
+}
+
+// 层序遍历获取二叉树
+func LevelOrderTraversal(root *TreeNode) [][]int {
+	now_nodes := []*TreeNode{}
+	new_values := []int{}
+	out := [][]int{}
+	if root != nil {
+		now_nodes = append(now_nodes, root)
+		new_values = append(new_values, root.Val)
+		out = append(out, new_values)
+	}
+	for len(now_nodes) != 0 {
+		new_nodes := []*TreeNode{}
+		new_values = []int{}
+		for i := 0; i < 2*len(now_nodes); i++ {
+			next_node := get_node(now_nodes[i/2], i%2)
+			if next_node != nil {
+				new_values = append(new_values, next_node.Val)
+				new_nodes = append(new_nodes, next_node)
+			}
+		}
+		if len(new_values) != 0 {
+			out = append(out, new_values)
+		}
+		now_nodes = new_nodes
+	}
+	return out
 }

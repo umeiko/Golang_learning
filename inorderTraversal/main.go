@@ -1,13 +1,12 @@
-package main
+package inorder_traversal
 
 import (
-	"fmt"
 	"golangLearning/tree_node"
 )
 
 const null = tree_node.Null
 
-func inorderTraversal(root *tree_node.TreeNode) (out []int) {
+func InorderTraversal(root *tree_node.TreeNode) (out []int) {
 	// now_node := root
 	// pre_node := root
 	// if pre_node.Left != nil {
@@ -59,9 +58,9 @@ func inorderTraversal(root *tree_node.TreeNode) (out []int) {
 	// return
 }
 
-func main() {
-	a := []int{1, 2, 3, null, 4, 5, null, null}
-	b := tree_node.GenTest(a)
-	fmt.Print(inorderTraversal(b))
+// func main() {
+// 	a := []int{1, 2, 3, null, 4, 5, null, null}
+// 	b := tree_node.GenTest(a)
+// 	fmt.Print(InorderTraversal(b))
 
-}
+// }
